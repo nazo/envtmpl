@@ -1,0 +1,18 @@
+machine:
+  timezone: Asia/Tokyo
+
+dependencies:
+  pre:
+    - go get github.com/tcnksm/ghr
+    - go get github.com/mitchellh/gox
+
+test:
+  override:
+    - echo 1
+
+deployment:
+  release:
+    branch: master
+    commands:
+      - gox --osarch "windows/386 windows/amd64 darwin/amd64 linux/amd64" --output "dist/{{.Dir}}_{{.OS}}_{{.Arch}}"
+      - ghr -t $GITHUB_TOKEN -u $GITHUB_USERNAME -r $CIRCLE_PROJECT_REPONAME --replace pre-release dist/
