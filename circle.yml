@@ -1,0 +1,16 @@
+machine:
+  timezone: Asia/Tokyo
+
+dependencies:
+  pre:
+    - go get github.com/tcnksm/ghr
+
+test:
+  override:
+    - echo 1
+
+deployment:
+  release:
+    branch: master
+    commands:
+      - ghr --username nazo --token $GITHUB_TOKEN --replace --prerelease --debug pre-release dist/
